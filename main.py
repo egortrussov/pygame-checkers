@@ -12,6 +12,7 @@ def main():
     clock = pygame.time.Clock()
 
     board = Board()
+    board.create_board()
 
     while (run):
         clock.tick(FPS)
@@ -24,6 +25,7 @@ def main():
                 pass
         
         board.draw_cubes(WIN)
+        board.draw_pieces(WIN)
         pygame.display.update()
 
         pass 
