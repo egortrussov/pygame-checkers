@@ -31,7 +31,7 @@ class Board:
                     new_piece.calc_pos()
                     board[row].append(new_piece)
                 else:
-                    board[row].append(None)
+                    board[row].append(0)
         self.board = board
     
     def draw_pieces(self, win):
@@ -40,3 +40,17 @@ class Board:
             for col in range(COLS):
                 if row % 2 != col % 2 and self.board[row][col]:
                     self.board[row][col].draw(win)
+    
+    def move(self, piece, row, col):
+        piece.move(row, col)
+        self.board[piece.row][piece.col], self.board[row][col] =  self.board[row][col], self.board[piece.row][piece.col]
+
+        if row == ROWS - 1 or row == 0:
+            piece.make_king()
+            if piece.color == WHITE:
+                self.white_kings += 1
+            else:
+                self.red_kings += 1
+    
+    def get_piece(self, row, col):
+        return self.board[row][col]

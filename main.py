@@ -7,6 +7,11 @@ FPS = 60
 WIN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption('Checkers')
 
+def get_row_col_from_mouse(pos):
+    x, y = pos
+    row, col = x // SQUARE_SIZE, y // SQUARE_SIZE
+    return row, col 
+
 def main():
     run = True 
     clock = pygame.time.Clock()
@@ -21,8 +26,11 @@ def main():
             if (e.type == pygame.QUIT):
                 run = False 
             if (e.type == pygame.MOUSEBUTTONDOWN):
-                print('down')
-                pass
+                pos = pygame.mouse.get_pos()
+                col, row = get_row_col_from_mouse(pos)
+                print(row, col)
+                piece = board.get_piece(row, col)
+                board.move(piece, 4, 3)
         
         board.draw_cubes(WIN)
         board.draw_pieces(WIN)
