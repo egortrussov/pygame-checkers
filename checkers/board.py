@@ -8,6 +8,7 @@ class Board:
         self.selected_piece = None 
         self.red_left = self.white_left =12 
         self.red_kings = self.white_kings = 0 
+        self.is_hint_shown = False
 
     def draw_cubes(self, win):
         win.fill(BLACK)
@@ -54,3 +55,37 @@ class Board:
     
     def get_piece(self, row, col):
         return self.board[row][col]
+    
+    def remove_hints(self):
+        if self.is_hint_shown:
+            for row in range(ROWS):
+                for col in range(COLS):
+                    if self.board[row][col]:
+                        if self.board[row][col].is_hint:
+                            self.board[row][col] = 0
+            self.is_hint_shown = False
+
+    def mark_neighbours(self, piece):
+        row, col = piece.row, piece.col
+
+        self.remove_hints()
+ 
+        if piece.direction < 0:
+            if not self.board[row - 1][col - 1]:
+                hint_piece = Piece(row - 1, col - 1, BLUE, True)
+                self.is_hint_shown = True
+                self.board[row - 1][col - 1] = hint_piece
+            if not self.board[row - 1][col + 1]:
+                hint_piece = Piece(row - 1, col + 1, BLUE, True)
+                self.is_hint_shown = True
+                self.board[row - 1][col + 1] = hint_piece
+        else:
+            if not self.board[row + 1][col - 1]:
+                hint_piece = Piece(row + 1, col - 1, BLUE, True)
+                self.is_hint_shown = True
+                self.board[row + 1][col - 1] = hint_piece
+            if col < COLS - 1 and not self.board[row + 1][col + 1]:
+                hint_piece = Piece(row + 1, col + 1, BLUE, True)
+                self.is_hint_shown = True
+                self.board[row + 1][col + 1] = hint_piece
+        

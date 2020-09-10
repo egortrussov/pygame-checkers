@@ -28,9 +28,11 @@ def main():
             if (e.type == pygame.MOUSEBUTTONDOWN):
                 pos = pygame.mouse.get_pos()
                 col, row = get_row_col_from_mouse(pos)
-                print(row, col)
                 piece = board.get_piece(row, col)
-                board.move(piece, 4, 3)
+                if piece:
+                    board.mark_neighbours(piece)
+                    print(piece.direction)
+                    # board.move(piece, 4, 3)
         
         board.draw_cubes(WIN)
         board.draw_pieces(WIN)

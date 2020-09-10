@@ -1,19 +1,21 @@
 import pygame
-from .constants import RED, WHITE, GREY, SQUARE_SIZE, YELLOW
+from .constants import BLACK, RED, BLUE, WHITE, GREY, SQUARE_SIZE, YELLOW
 
 class Piece:
     PADDING = 10
     BORDER = 2
     CROWN_RADIUS = 10
+    HINT_RADIUS = 15
 
-    def __init__(self, row, col, color):
+    def __init__(self, row, col, color, is_hint=False):
         self.row = row 
         self.col = col 
         self.color = color 
         self.king = False
+        self.is_hint = is_hint
 
-        if self.color == RED:
-            self.direction = -1 
+        if self.color == BLACK:
+            self.direction = -1
         else:
             self.direction = 1
         
@@ -28,6 +30,11 @@ class Piece:
         self.king = True 
     
     def draw(self, win):
+        self.calc_pos()
+        if self.is_hint:
+            pygame.draw.circle(win, BLUE, (self.x, self.y), self.HINT_RADIUS)
+            return;
+
         radius = SQUARE_SIZE // 2  - self.PADDING
         pygame.draw.circle(win, GREY, (self.x, self.y), radius + self.BORDER)
         pygame.draw.circle(win, self.color, (self.x, self.y), radius)
