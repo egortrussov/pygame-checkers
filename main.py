@@ -30,9 +30,13 @@ def main():
                 col, row = get_row_col_from_mouse(pos)
                 piece = board.get_piece(row, col)
                 if piece:
-                    board.mark_neighbours(piece)
-                    print(piece.direction)
-                    # board.move(piece, 4, 3)
+                    if piece.is_hint and board.current_piece_coords[0] != None:
+                        board.move(board.current_piece_coords[0], board.current_piece_coords[1], row, col)
+                    else:
+                        if board.is_hint_shown:
+                            board.remove_hints()
+                        else:
+                            board.mark_neighbours(piece)
         
         board.draw_cubes(WIN)
         board.draw_pieces(WIN)

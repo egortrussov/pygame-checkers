@@ -47,4 +47,5 @@ class Piece:
     def move(self, row, col):
         self.row = row 
         self.col = col 
+        print('lo')
         self.calc_pos() 
